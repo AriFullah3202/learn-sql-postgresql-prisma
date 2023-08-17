@@ -1,0 +1,32 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Users\SR\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add prisma typescript ts-node @types/node --save-dev
+
+PATH: 
+  C:\Program Files\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Java\jdk-19\bin;C:\Program Files\Git\cmd;C:\Users\SR\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Program Files\MongoDB\Server\6.0\bin;C:\Users\SR\AppData\Local\Yarn\bin;C:\Users\SR\AppData\Local\Programs\Python\Python311\python.exe;C:\Users\SR\AppData\Local\Programs\Python\Python311\Scripts\;C:\Users\SR\AppData\Local\Programs\Python\Python311\;C:\Program Files\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Java\jdk-19\bin;C:\Program Files\Git\cmd;C:\Users\SR\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Program Files\MongoDB\Server\6.0\bin;C:\Users\SR\AppData\Local\Yarn\bin;C:\Users\SR\AppData\Local\Programs\Python\Python3.11;C:\Program Files\MySQL\MySQL Shell 8.0\bin\;C:\Users\SR\AppData\Local\Microsoft\WindowsApps;C:\Users\SR\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\SR\AppData\Roaming\npm;C:\Program Files\JetBrains\PyCharm 2023.1.3\bin;C:\Users\SR\AppData\Local\Programs\Python\Python3.11\Scripts
+
+Yarn version: 
+  1.22.19
+
+Node version: 
+  18.15.0
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: read ECONNRESET
+      at TLSWrap.onStreamRead (node:internal/stream_base_commons:217:20)
+
+npm manifest: 
+  {
+    "name": "learn-postgresql-prisma",
+    "version": "1.0.0",
+    "main": "index.js",
+    "license": "MIT"
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
