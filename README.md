@@ -97,6 +97,9 @@
        -  [Filter and Ordering](#filter-and-ordering)
          - [ordering and sorting](#ordering-and-sorting)
          - [default sort order](#default-sort-order)
+       - [Pagination](#pagination)
+         - [cursor pagination](#cursor-pagination)
+
 
         
           
@@ -2520,7 +2523,48 @@ http://localhost:3000/api/v1/post?sortBy=title&sortOrder=asc&searchTerm=T
       ],
     },
 ``` 
+## pagination
+
+**paginating 2 প্রকার**
+
+- offset pagination
+- cusor pagination
+
+### cursor pagination
+
+**আমরা এখানে `offset` pagination দেখবো**
+
+**postgresql এ cursor pagination দুইটা জিনিস থাকে । একটা হল `take` অন্যটি হল `skip`**
+
+**আমরা কিভাবে কাজটা করব?**
+
+যখন কুয়েরি লিখি তখন লাগে ।
+- limit = 5 কয়টা ডাটা দেখাব
+- total =  10 মোট কয়টা ডাটা আছে
+- page = 3 পেইজ কয়টা আছে 
+**postgresql এ cursor pagination দুইটা জিনিস থাকে । একটা হল `take` অন্যটি হল `skip`**
+- skip  = limit * page - limit
+  - স্কিপের ভ্যালু কিভাবে বের করব ?
+         5 * 3 - 5 = 10 এখানে ১০ টা স্কিপ করবে ।
+- take = limit
+**কিভাবে সার্চ করব ?**
+```js
+http://localhost:3000/api/v1/post?page=2&limit=2
+```
+
+* in post.service.ts
+
+* আমরা page , limit কে পাঠাচ্ছি । এবং আমরা skip করছি ।
+* এবং findmany মেথডে রাখছি ।
 
 
+```js
+  const { sortBy, sortOrder, searchTerm, page, limit } = options;
+  const skip = parseInt(page) * parseInt(limit) - parseInt(limit);
+  const take = parseInt(limit);
 
+  const result = await prisma.post.findMany({
+    skip,
+    take,
+```
 
