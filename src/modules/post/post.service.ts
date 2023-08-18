@@ -51,7 +51,9 @@ const getPosts = async (options: any) => {
       ],
     },
   });
-  return result;
+  const total = await prisma.post.count();
+
+  return { data: result, total };
 };
 
 export const PostService = { insertIntoDB, getPosts };

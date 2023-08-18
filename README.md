@@ -1,38 +1,38 @@
 ## Introdcttion  database design 
 1. we will learn
    1.  [Database](#database)
-       - [DBMS কি?](#dbms)
-       - [Query language](#query-language)
+       - ## [DBMS কি?](#dbms)
+       - ## [Query language](#query-language)
        - [Types of Data](#types-of-data)
-       - [Relational Database](#relational-database)
+       - ## **[Relational Database](#relational-database)**
           - [Cardinality](#cardinality)
           - [key](#key)
           - [ERD](#erd-entity-relationship-diagram)
           - [ERD visualization](#erd-idea-visualization)
-       - [Connecting Postgresql](#connecting-postgresql) 
-       - [Database user management](#database-user-management)
-       - [Sql vs other databases](#sql-vs-other-databases)
-       - [create , alter , drop database](#create-alter--drop-database)
-       - [datatypes in postgresql](#datatype-in-postgress)
-       - [create , updata , delete table](#create-delete--update-table)
-       - [add constraint](#constraints)
-       - [Insert table](#insertion)
-       - [Alter table](#alter-table)
-       - [Foreign key constraint and data integrity](#foreign-key-constraint-and-data-integrity)
-       - [Insertion and deletion](#insertion-and-deletion)
-         - [Delete table](#delete-data)
-         - [Update table](#update-data)
-         - [select table](#select-basic)
-       - [sort and limit and offset](#sort-limit-and-offset)
-         - [sort](#sort)
-         - [pagination or limit and offset](#pagination-or-limit-and-offset)
+       - ## **[Connecting Postgresql](#connecting-postgresql)**
+       - ## **[Database user management](#database-user-management)**
+       - ## **[Sql vs other databases](#sql-vs-other-databases)**
+       - **[create , alter , drop database](#create-alter--drop-database)**
+       - **[datatypes in postgresql](#datatype-in-postgress)**
+       - **[create , updata , delete table](#create-delete--update-table)**
+       - **[add constraint](#constraints)**
+       - **[Insert table](#insertion)**
+       - **[Alter table](#alter-table)**
+       - **[Foreign key constraint and data integrity](#foreign-key-constraint-and-data-integrity)**
+       - ## **[Insertion and deletion](#insertion-and-deletion)**
+         - **[Delete table](#delete-data)**
+         - **[Update table](#update-data)**
+         - **[select table](#select-basic)**
+       - ## **[sort and limit and offset](#sort-limit-and-offset)**
+         - **[sort](#sort)**
+         - **[pagination or limit and offset](#pagination-or-limit-and-offset)**
 
-       - [Explore more select and like operator](#explore-more-select-and-like-operator)
-         - [in , not in](#in-and-not-in)
-         - [between](#between)
+       - ## **[Explore more select and like operator](#explore-more-select-and-like-operator)**
+         - **[in , not in](#in-and-not-in)**
+         - **[between](#between)**
          - [Like](#like)
          - [specific prosition search in string](#specific-position-in-string)
-       - [Joining table](#joining-table)
+       - ## **[Joining table](#joining-table)**
          - [where and on](#where-and-on)
          - [inner join](#inner-join--join)
          - [left join](#left-outer-join--left-join)
@@ -40,65 +40,66 @@
          - [full join](#full-join)
          - [Cross join](#cross-join)
          - [natural join](#natural-join)
-       - [Aggregation function](#aggregate-functions)
+       - ## **[Aggregation function](#aggregate-functions)**
          - [Group by](#group-by-clause)
-       - [subqueries](#subqueries-unleashing-the-power-of-nesting)
-       - [View](#view)
-       - [Store procedure and funciton](#store-procedure-and-funciton)
-       - [Trigger](#trigger)
-       - [index and optimization](#indexing-and-optimization)
+       - ## **[subqueries](#subqueries-unleashing-the-power-of-nesting)**
+       - ## **[View](#view)**
+       - ## **[Store procedure and funciton](#store-procedure-and-funciton)**
+       - ## [Trigger](#trigger)
+       - ## [index and optimization](#indexing-and-optimization)
 
   
 
 
        
-   2.  Prisma
-       - Prisma
+   2.  ## Prisma
+       - ## Prisma
 
          - [what is Prisma](#what-is-prisma)
          - [why is Prisma](#why-prisma)
          - [limitation](#limitations-of-prisma)
          - [system requirements](#system-requirements)
-       - Prisma setup
+       - ## **Prisma setup**
          - [prisma-setup](#prisma-setup)
-       - Folder structure
+       - ## **Folder structure**
          - [folder structure](#folder-structure)
-       - [creating database schema and prisma migrate and install prisma client](#creating-database-schema-and-prisma-migrate-and-install-prisma-client)
+       - ## **[creating database schema and prisma migrate and install prisma client](#creating-database-schema-and-prisma-migrate-and-install-prisma-client)**
          - [extension](#download-prisma-extension)
          - [model create and migration create and run](#sql-migration-create-and-run)
          - [Write your first Query with Prisma Client (create and read)](#write-your-first-query-with-prisma-client-create-and-read)
            - [read](#read-database)
            - [create user](#create-user)
-        - [generating Prisma client and prisma migrate](#generating-prisma-client-and-prisma-migrate)
+        - ## [generating Prisma client and prisma migrate](#generating-prisma-client-and-prisma-migrate)
            - [generate migration](#generate-migration)
            - [genetate prisma](#generate-prismma)
-        - [Data model , Names  in the Underling Database and Relation](#data-model--names-in-the-underling-database-and-relation)
+        - ## [Data model , Names  in the Underling Database and Relation](#data-model--names-in-the-underling-database-and-relation)
           - [Data model , Names](#data-model--names)
           - [relation one table to another table](#relation-one-table-to-another-table)
           - [one to one relationship](#one-to-one-relationship)
           - [one to many relationships](#one-to-many-relationship)
-        - [Mapping Fieldcolumn Names , setting up express , Cors , and organizing file Stuctures](#mapping-fieldcolumn-names--setting-up-express--cors--and-organizing-file-stuctures)
+        - ## [Mapping Fieldcolumn Names , setting up express , Cors , and organizing file Stuctures](#mapping-fieldcolumn-names--setting-up-express--cors--and-organizing-file-stuctures)
           - [mapping field column names](#mapping-fieldcolumn-names)
           - [setting up express and cors](#setting-up-express--cors--run-server)
           - [arrange folder in your project](#arrange-folder-in-you-project)
-        - [Creating Users and Introduction to Prisma Studio](#creating-database-schema-and-prisma-migrate-and-install-prisma-client)
+        - ## [Creating Users and Introduction to Prisma Studio](#creating-database-schema-and-prisma-migrate-and-install-prisma-client)
           - [creating user route](#user-router-তৈরি-করব)
           - [creating user service](#creating-user-service)
           - [creating prisma studio server and run](#creating-prisma-studio-server-and-run)
-        - [Create or update profile conditionally](#create-or-update-profile-conditionally)
-        - [include relations and select relation fields](#include-relations-and-select-relation-fields)
+        - ## [Create or update profile conditionally](#create-or-update-profile-conditionally)
+        - ## [include relations and select relation fields](#include-relations-and-select-relation-fields)
           - [get al user](#get-all-user)
           - [select specific one column or field](#select-specific-one-column-or-field)
           - [Relatioal table select](#relatioal-table-select)
           - [Get single user with relational table data](#get-single-user-with-relational-table-data)
-        - [create and get all post](#create-and-get-all-post-different-ways)
+        - ## [create and get all post](#create-and-get-all-post-different-ways)
           - [Create post and get all table relation data](#create-post-and-get-all-table-relation-data)
           - [get all post](#get-all-post)
-       -  [Filter and Ordering](#filter-and-ordering)
+       - ## [Filter and Ordering](#filter-and-ordering)
          - [ordering and sorting](#ordering-and-sorting)
          - [default sort order](#default-sort-order)
-       - [Pagination](#pagination)
+       - ## [Pagination](#pagination)
          - [cursor pagination](#cursor-pagination)
+         - [show total](#show-total-data)
 
 
         
@@ -2547,7 +2548,7 @@ http://localhost:3000/api/v1/post?sortBy=title&sortOrder=asc&searchTerm=T
   - স্কিপের ভ্যালু কিভাবে বের করব ?
          5 * 3 - 5 = 10 এখানে ১০ টা স্কিপ করবে ।
 - take = limit
-**কিভাবে সার্চ করব ?**
+**কিভাবে সার্চ করব ? `page=2&limit=2`**
 ```js
 http://localhost:3000/api/v1/post?page=2&limit=2
 ```
@@ -2567,4 +2568,32 @@ http://localhost:3000/api/v1/post?page=2&limit=2
     skip,
     take,
 ```
+
+### show total data
+* **findmany() মেথডের পরে count() মেথড রাখব**
+in post.service.ts
+
+```js
+const total = await prisma.post.count();
+
+  return { data: result, total };
+```
+in post.controller.ts
+
+```js
+ res.send({
+      success: true,
+      message: "all post get successfully",
+      total: result.total,
+      data: result.data,
+    });
+```
+
+## transection rollback
+
+* এখন এমন situation আসতে পারে ।যেখানে findmany() এক্সিকিউট হয়েছে ।
+* এর নিচের মেথড এক্সিকিউট হয়নি । এক্ষেত্রে `transection` ব্যবহার করতে হয় ।
+* তার মানে আমাকে দিলে দুইটা দাও না হয় কোনটায় দিবে না ।
+
+
 
