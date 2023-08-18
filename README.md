@@ -12,13 +12,13 @@
        - ## **[Connecting Postgresql](#connecting-postgresql)**
        - ## **[Database user management](#database-user-management)**
        - ## **[Sql vs other databases](#sql-vs-other-databases)**
-       - **[create , alter , drop database](#create-alter--drop-database)**
-       - **[datatypes in postgresql](#datatype-in-postgress)**
-       - **[create , updata , delete table](#create-delete--update-table)**
-       - **[add constraint](#constraints)**
-       - **[Insert table](#insertion)**
-       - **[Alter table](#alter-table)**
-       - **[Foreign key constraint and data integrity](#foreign-key-constraint-and-data-integrity)**
+       - ### **[create , alter , drop database](#create-alter--drop-database)**
+       - ### **[datatypes in postgresql](#datatype-in-postgress)**
+       - ### **[create , updata , delete table](#create-delete--update-table)**
+       - ### **[add constraint](#constraints)**
+       - ### **[Insert table](#insertion)**
+       - ### **[Alter table](#alter-table)**
+       - ### **[Foreign key constraint and data integrity](#foreign-key-constraint-and-data-integrity)**
        - ## **[Insertion and deletion](#insertion-and-deletion)**
          - **[Delete table](#delete-data)**
          - **[Update table](#update-data)**
@@ -254,7 +254,7 @@
 
 ## Database commands
 
-```json
+```sql
 এটা ভার্শন চেক করবে ।
 
 select version(); 
