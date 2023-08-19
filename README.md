@@ -100,6 +100,17 @@
        - ## [Pagination](#pagination)
          - [cursor pagination](#cursor-pagination)
          - [show total](#show-total-data)
+       - ## [transaction](#transaction)
+         - [whern we use transaction](#whern-we-use-transaction)
+       - ## [Post updata and delete by id](#post-updata-and-delete-by-id)
+         - [update by id](#update-by-id)
+         - [deleteByid post](#deletebyid-post)
+       - ## [Aggregation , Grouping , Summerizing](#aggregation--grouping--summerizing)
+         - [#Aggregatre with prism](#aggregatre-with-prisma)
+         - [grouping with prisma](#grouping-with-prisma)
+       - ## [Team development with prisma migrate and schema prototyping with db push](#team-development-with-prisma-migrate-and-schema-prototyping-with-db-push)
+         - [pull](#pull)
+         - [push](#push)
 
 
         
@@ -2557,12 +2568,13 @@ http://localhost:3000/api/v1/post?page=2&limit=2
 
 * আমরা page , limit কে পাঠাচ্ছি । এবং আমরা skip করছি ।
 * এবং findmany মেথডে রাখছি ।
+* এখানে আমরা যদি url এ `page , limit` না দিই তাহলে default টা নিবে । এজন্য 0 , 10 দিয়েছি । 
 
 
 ```js
   const { sortBy, sortOrder, searchTerm, page, limit } = options;
-  const skip = parseInt(page) * parseInt(limit) - parseInt(limit);
-  const take = parseInt(limit);
+  const skip = parseInt(page) * parseInt(limit) - parseInt(limit) || 0;
+  const take = parseInt(limit) || 10;
 
   const result = await prisma.post.findMany({
     skip,
@@ -2594,6 +2606,224 @@ in post.controller.ts
 * এখন এমন situation আসতে পারে ।যেখানে findmany() এক্সিকিউট হয়েছে ।
 * এর নিচের মেথড এক্সিকিউট হয়নি । এক্ষেত্রে `transection` ব্যবহার করতে হয় ।
 * তার মানে আমাকে দিলে দুইটা দাও না হয় কোনটায় দিবে না ।
+
+* in post.service.ts
+* `service` এর মধ্যে দিতে হবে ।
+```js
+ return await prisma.$transaction(async(tx) => {
+    
+  })
+```
+* উপরের কোডের ভিতরে পুরো কোড বসাই দিসি
+* উপরের কোডের ভিতরে যত `prisma` আছে সব জায়গায় `tx` করে দিতে হবে ।
+```js
+  return await prisma.$transaction(async (tx) => {
+    const result = await prisma.post.findMany({
+      skip,
+      take,
+      include: {
+        author: true,
+        category: true,
+      },
+      orderBy:
+        sortBy && sortOrder
+          ? {
+              [sortBy]: sortOrder,
+            }
+          : { createdAt: "desc" },
+
+      where: {
+        OR: [
+          {
+            title: {
+              contains: searchTerm,
+              mode: "insensitive",
+            },
+          },
+          {
+            author: {
+              name: {
+                contains: searchTerm,
+                mode: "insensitive",
+              },
+            },
+          },
+        ],
+      },
+    });
+    const total = await prisma.post.count();
+
+    return { data: result, total };
+  });
+```
+#### আরেকটু চেন্জ করতে হবে  । এখানে `tx` করে দিয়েছি ।
+```js
+ return await prisma.$transaction(async (tx) => {
+    const result = await tx.post.findMany({
+      skip,
+      take,
+      include: {
+        author: true,
+        category: true,
+      },
+      orderBy:
+        sortBy && sortOrder
+          ? {
+              [sortBy]: sortOrder,
+            }
+          : { createdAt: "desc" },
+
+      where: {
+        OR: [
+          {
+            title: {
+              contains: searchTerm,
+              mode: "insensitive",
+            },
+          },
+          {
+            author: {
+              name: {
+                contains: searchTerm,
+                mode: "insensitive",
+              },
+            },
+          },
+        ],
+      },
+    });
+    const total = await tx.post.count();
+
+    return { data: result, total };
+  });
+```
+## whern we use transaction
+
+**`transection` কখন ব্যবহার হয় ? ধরেন বিকাশের কথা চিন্তা করুন যে**
+* কেউ টাকা পাঠাতে চাই যে 
+* একজনের থেকে টাকা কাটল কিন্তু আরেকজনের কাছে টাকা যোগ হলো না ।
+
+## Post updata and delete by id
+## update by id
+<hr style = "background-color: #8c8b8b; height : 4px" />
+
+
+* post.service.ts
+* এখানে `partial` দিয়েছি । কারণ post এর মধ্যে একটা ফিল্ড আপডেট দিতে পারি আবার সব ফিল্ড আপডেট দিতে পারি ।
+
+```js
+const updtePostById = async (
+  id: number,
+  payload: Partial<Post>
+): Promise<Post> => {
+  const result = await prisma.post.update({
+    where: {
+      id,
+    },
+    data: payload,
+  });
+  return result;
+};
+
+```
+
+* post.controller.ts
+```js
+ const id = parseInt(req.params.id);
+  const data = req.body;
+
+  const result = await PostService.updtePostById(id, data);
+```
+## deleteByid post
+* in post.service.ts
+```js
+ const result = await prisma.post.delete({
+    where: {
+      id,
+    },
+```
+* in post.controller.ts
+```js
+const deletePostById = async (req: Request, res: Response) => {
+  const id = parseInt(req.params.id);
+
+  try {
+    const result = await PostService.deletePostById(id);
+```
+## Aggregation , Grouping , Summerizing
+
+* aggregatate `int` , `float` এর ক্ষেত্রে করা যায় ।
+
+* aggregate কি করা যায় তা উপরে বিস্তারিত বলা আছে ।
+
+## Aggregatre with prisma
+* in post.service.ts
+```js
+const aggregateLearn = async () => {
+  const result = await prisma.post.aggregate({
+    _avg: {
+      authorId: true,
+    },
+    _count: {
+      authorId: true,
+    },
+    _sum: {
+      authorId: true,
+    },
+  });
+  return result;
+};
+```
+## grouping with prisma
+* এটা নিয়ে উপরে বলা আছে ।
+* যদি আবার বলি যে ডাটাবেজে catagoryid , authorid আছে অনেকবার title আনেকবার এটা grouping করতে পারি ।
+* redundancy দুর করে ।
+
+
+* post.serivce.ts
+
+```js
+ const result = await prisma.post.groupBy({
+    by: ["title"],
+    _count: {
+      title: true,
+    },
+  });
+  return result;
+```
+* এখানে একই নামের title কয়টা আছে এটা group করে count করে দিচ্ছে ।
+
+## raw database access
+* আমরা এতক্ষণ `prisma` ইউজ করছিলাম । যেখানে raw sql লিখতে হয়নি ।
+* এখন প্রশ্ন আসতে পারে যে আমরা `postgresql` না শিখে সরাসরি `prisma` শিখতে পারতাম । sql শিখার দরকার কী ? 
+
+* উত্তর হচ্ছে : `prisma` কম্প্লেক্স কিছু প্রবলোম ভালো পারফরম করে না । সেখানে `raw sql` ইউজ করা লাগে ।
+
+* **select এর ক্ষেত্রে `queryRaw` update এর ক্ষেত্রে `executeRaw` লিখা হয়েছে ।**
+
+```js
+// select করার ক্ষেত্রে 
+ const result = await prisma.$queryRaw`SELECT * FROM users`
+ // update করার ক্ষেত্রে
+ const result =   await prisma.$executeRaw`UPDATE posts SET title = ${payload.title} WHERE id = ${id}`;
+```
+## Team development with prisma migrate and schema prototyping with db push
+
+**আমরা যখন টিমে কাজ করব তখন একজন `model` ক্রিয়েট করে `push` করব অন্যজন `pull` করবে ।**
+
+## Push
+**আমরা প্রথমে `model` ক্রিয়েট করব । তারপর নিচের কমান্ড দিয়ে `push` করব ।**
+```js
+npx prisma db push
+```
+
+## pull
+* model `schema.prisma` থেকে যদি ডিলিট করি । 
+* আমরা একটা কমান্ড দিয়ে pull করতে পারব । যেমন গিটহাব থেকে করি ।
+```js
+npx prisma db pull
+```
+* এখন আরার `model` নিয়ে আসবে ।
 
 
 
